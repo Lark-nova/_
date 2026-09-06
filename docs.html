@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LARK Documentation</title>
+<meta name="description" content="Official documentation for Nova AI and the LARK Platform."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#0a0a0b;--panel:#111113;--border:#222226;--border2:#2a2a30;
+  --text:#ececef;--text2:#a1a1aa;--text3:#71717a;--text4:#52525b;
+  --blue:#3b82f6;--blue2:#60a5fa;--code:#0d0d0f;
+  --font:Inter,system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  --side:260px;--toc:200px;--top:56px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;font-size:15px}
+a{color:var(--blue2);text-decoration:none}
+a:hover{text-decoration:underline}
+code,pre{font-family:var(--mono);font-size:13px}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+/* Top bar */
+.topbar{
+  position:fixed;top:0;left:0;right:0;height:var(--top);z-index:50;
+  background:rgba(10,10,11,.92);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:1rem;padding:0 1rem;
+}
+.top-logo{display:flex;align-items:center;gap:.5rem;font-weight:600;font-size:.95rem;color:var(--text);text-decoration:none}
+.top-logo:hover{text-decoration:none}
+.top-logo svg{width:22px;height:22px}
+.top-search{
+  flex:1;max-width:420px;margin:0 auto;position:relative;
+}
+.top-search input{
+  width:100%;background:var(--panel);border:1px solid var(--border2);border-radius:8px;
+  padding:.5rem .75rem .5rem 2rem;color:var(--text);font-size:.875rem;outline:none;
+}
+.top-search input:focus{border-color:#3b82f680}
+.top-search .ico{position:absolute;left:.65rem;top:50%;transform:translateY(-50%);color:var(--text3);font-size:.75rem;pointer-events:none}
+.top-search kbd{
+  position:absolute;right:.5rem;top:50%;transform:translateY(-50%);
+  font-size:.65rem;color:var(--text4);border:1px solid var(--border2);border-radius:4px;padding:.1rem .35rem;
+}
+.top-links{display:none;gap:1rem;font-size:.8125rem}
+.top-links a{color:var(--text2);text-decoration:none}
+.top-links a:hover{color:var(--text)}
+@media(min-width:900px){.top-links{display:flex}
+.menu-toggle{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;color:var(--text3);border:1px solid var(--border)}
+@media(min-width:960px){.menu-toggle{display:none}
+
+/* Layout */
+.layout{display:flex;padding-top:var(--top);min-height:100vh}
+.sidebar{
+  position:fixed;top:var(--top);left:0;bottom:0;width:var(--side);
+  overflow-y:auto;border-right:1px solid var(--border);background:var(--bg);
+  padding:1.25rem 0 2rem;z-index:40;
+  transform:translateX(-100%);transition:transform .2s ease;
+}
+.sidebar.open{transform:translateX(0)}
+@media(min-width:960px){.sidebar{transform:none}
+.sidebar h4{
+  font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--text4);padding:.75rem 1.25rem .35rem;
+}
+.sidebar a{
+  display:block;padding:.35rem 1.25rem;font-size:.8125rem;color:var(--text3);
+  text-decoration:none;border-left:2px solid transparent;
+}
+.sidebar a:hover{color:var(--text);background:rgba(255,255,255,.02)}
+.sidebar a.active{color:var(--text);border-left-color:var(--blue);background:rgba(59,130,246,.06)}
+
+.content{
+  flex:1;min-width:0;padding:2rem 1.25rem 4rem;
+  margin-left:0;
+}
+@media(min-width:960px){.content{margin-left:var(--side);padding:2.5rem 2rem 5rem;max-width:calc(100% - var(--side) - var(--toc) - 1rem)}
+@media(min-width:1200px){.content{padding-right:2.5rem}
+
+.toc{
+  display:none;position:fixed;top:calc(var(--top) + 1.5rem);right:1.25rem;width:var(--toc);
+  font-size:.75rem;color:var(--text3);
+}
+@media(min-width:1200px){.toc{display:block}
+.toc strong{display:block;color:var(--text4);margin-bottom:.5rem;font-size:.65rem;letter-spacing:.06em;text-transform:uppercase}
+.toc a{display:block;padding:.25rem 0;color:var(--text3);text-decoration:none}
+.toc a:hover{color:var(--text2)}
+
+/* Content typography */
+.doc h1{font-size:1.85rem;font-weight:650;letter-spacing:-.03em;margin-bottom:.5rem;line-height:1.2}
+.doc .lead{font-size:1.05rem;color:var(--text2);margin-bottom:1.75rem;max-width:42rem}
+.doc h2{font-size:1.35rem;font-weight:600;letter-spacing:-.02em;margin:2.5rem 0 .75rem;padding-top:.5rem;border-top:1px solid var(--border)}
+.doc h2:first-of-type{border-top:none;margin-top:1.5rem}
+.doc h3{font-size:1.05rem;font-weight:600;margin:1.5rem 0 .5rem}
+.doc p{margin:0 0 1rem;color:var(--text2);max-width:42rem}
+.doc ul,.doc ol{margin:0 0 1rem 1.25rem;color:var(--text2);max-width:42rem}
+.doc li{margin:.35rem 0}
+.doc strong{color:var(--text);font-weight:600}
+.doc hr{border:none;border-top:1px solid var(--border);margin:2rem 0}
+
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin:1.5rem 0 2rem}
+@media(min-width:600px){.quick-grid{grid-template-columns:repeat(3,1fr)}
+.quick-card{
+  border:1px solid var(--border);border-radius:10px;padding:1rem;
+  background:var(--panel);color:var(--text);text-decoration:none;display:block;
+}
+.quick-card:hover{border-color:var(--border2);text-decoration:none}
+.quick-card span{display:block;font-size:.8rem;color:var(--text3);margin-top:.25rem}
+
+.note{
+  border:1px solid var(--border2);border-left:3px solid var(--blue);
+  background:rgba(59,130,246,.06);border-radius:8px;padding:.85rem 1rem;margin:1.25rem 0;max-width:42rem;
+  font-size:.875rem;color:var(--text2)
+}
+.warn{
+  border:1px solid #422006;border-left:3px solid #fbbf24;
+  background:rgba(251,191,36,.06);border-radius:8px;padding:.85rem 1rem;margin:1.25rem 0;max-width:42rem;
+  font-size:.875rem;color:var(--text2)
+}
+
+.steps{counter-reset:step;margin:1rem 0 1.5rem}
+.step{position:relative;padding-left:2.5rem;margin-bottom:1.25rem;max-width:42rem}
+.step::before{
+  counter-increment:step;content:counter(step);
+  position:absolute;left:0;top:0;width:1.75rem;height:1.75rem;border-radius:50%;
+  background:var(--panel);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;font-weight:600;color:var(--text2)
+}
+.step h3{margin:0 0 .35rem;font-size:1rem}
+
+pre{
+  background:var(--code);border:1px solid var(--border);border-radius:10px;
+  padding:1rem 1.1rem;overflow-x:auto;margin:1rem 0 1.25rem;max-width:48rem;
+  line-height:1.55;color:#d4d4d8
+}
+pre .k{color:#c084fc} pre .s{color:#86efac} pre .n{color:#93c5fd} pre .c{color:#71717a} pre .f{color:#fcd34d}
+code.inline{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:.1rem .35rem;font-size:.8rem;color:#e4e4e7}
+
+.table-wrap{overflow-x:auto;margin:1rem 0 1.5rem;max-width:48rem;border:1px solid var(--border);border-radius:10px}
+table{width:100%;border-collapse:collapse;font-size:.8125rem}
+th{text-align:left;padding:.65rem .85rem;border-bottom:1px solid var(--border);color:var(--text4);font-weight:600;font-size:.7rem;letter-spacing:.04em;text-transform:uppercase;background:var(--panel)}
+td{padding:.7rem .85rem;border-bottom:1px solid var(--border);color:var(--text2)}
+tr:last-child td{border-bottom:none}
+
+.section{display:none;scroll-margin-top:calc(var(--top) + 1rem)}
+.section.active{display:block}
+
+.backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:35}
+.backdrop.open{display:block}
+@media(min-width:960px){.backdrop{display:none!important}
+
+#search-results{
+  display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;
+  background:var(--panel);border:1px solid var(--border2);border-radius:10px;
+  max-height:320px;overflow-y:auto;z-index:60;box-shadow:0 16px 40px rgba(0,0,0,.45)
+}
+#search-results.open{display:block}
+#search-results button{
+  display:block;width:100%;text-align:left;padding:.65rem .85rem;font-size:.8125rem;
+  color:var(--text2);border-bottom:1px solid var(--border)
+}
+#search-results button:hover{background:rgba(255,255,255,.04);color:var(--text)}
+#search-results button span{display:block;font-size:.7rem;color:var(--text4);margin-top:.15rem}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-toggle" id="menu-toggle" aria-label="Menu">☰</button>
+  <a class="top-logo" href="./index.html">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#e8e8ea" d="M42 16 L70 30 L70 78 L42 64 Z"/><path fill="#c8c8cc" d="M42 64 L70 78 L98 62 L70 48 Z"/></svg>
+    LARK Docs
+  </a>
+  <div class="top-search">
+    <span class="ico">⌕</span>
+    <input type="search" id="search" placeholder="Search documentation…" autocomplete="off"/>
+    <kbd>/</kbd>
+    <div id="search-results"></div>
+  </div>
+  <nav class="top-links">
+    <a href="./products.html">Products</a>
+    <a href="./apikey.html">API Keys</a>
+    <a href="./api.html">API</a>
+  </nav>
+</header>
+<div class="backdrop" id="backdrop"></div>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <h4>Start</h4>
+  <a href="#intro" data-section="intro" class="active">Introduction</a>
+  <a href="#getting-started" data-section="getting-started">Getting Started</a>
+  <a href="#quickstart" data-section="quickstart">Quickstart</a>
+  <h4>Concepts</h4>
+  <a href="#concepts" data-section="concepts">Core Concepts</a>
+  <a href="#models" data-section="models">Models</a>
+  <a href="#auth" data-section="auth">Authentication</a>
+  <h4>API</h4>
+  <a href="#chat" data-section="chat">Chat Completions</a>
+  <a href="#streaming" data-section="streaming">Streaming</a>
+  <a href="#vision" data-section="vision">Vision</a>
+  <a href="#voice" data-section="voice">Voice</a>
+  <a href="#tools" data-section="tools">Function Calling</a>
+  <a href="#structured" data-section="structured">Structured Outputs</a>
+  <h4>Build</h4>
+  <a href="#agents" data-section="agents">Agents</a>
+  <a href="#prompts" data-section="prompts">Prompt Engineering</a>
+  <a href="#limits" data-section="limits">Rate Limits</a>
+  <a href="#errors" data-section="errors">Errors</a>
+  <a href="#security" data-section="security">Security</a>
+  <h4>Resources</h4>
+  <a href="#sdks" data-section="sdks">SDKs</a>
+  <a href="#cookbook" data-section="cookbook">Cookbook</a>
+  <a href="#faq" data-section="faq">FAQ</a>
+  <a href="#changelog" data-section="changelog">Changelog</a>
+</aside>
+
+<main class="content doc">
+<nav class="toc" id="toc"></nav>
+
+<!-- INTRO -->
+<section class="section active" id="intro">
+  <h1>LARK Documentation</h1>
+  <p class="lead">Everything you need to build with Nova AI — from your first request to production systems.</p>
+  <div class="quick-grid">
+    <a class="quick-card" href="#quickstart">Getting Started<span>Create a key and call the API</span></a>
+    <a class="quick-card" href="#chat">API Reference<span>Chat completions and parameters</span></a>
+    <a class="quick-card" href="#models">Models<span>Apex, Hyper, and Pro</span></a>
+    <a class="quick-card" href="#sdks">SDKs<span>Python and JavaScript</span></a>
+    <a class="quick-card" href="#cookbook">Examples<span>Real application patterns</span></a>
+    <a class="quick-card" href="#prompts">Guides<span>Prompting and agents</span></a>
+  </div>
+  <p>LARK is the company behind <strong>Nova</strong>, a family of language models and APIs for reasoning, coding, research, and production workloads. This portal is the source of truth for integrating Nova into your applications.</p>
+</section>
+
+<!-- GETTING STARTED -->
+<section class="section" id="getting-started">
+  <h1>Getting Started</h1>
+  <p class="lead">Understand the platform before you write code.</p>
+
+  <h2>What is LARK?</h2>
+  <p>LARK builds intelligence systems for developers and organizations. The platform exposes models, APIs, and tooling so you can add reasoning, generation, and tool use to products without running training infrastructure yourself.</p>
+
+  <h2>What is Nova AI?</h2>
+  <p><strong>Nova</strong> is LARK’s model family. Different Nova models trade off depth of reasoning, latency, and cost. You select a model per request; the API surface stays the same.</p>
+  <ul>
+    <li><strong>Nova Apex</strong> — frontier reasoning for complex work</li>
+    <li><strong>Nova Hyper</strong> — high throughput for production scale</li>
+    <li><strong>Nova Pro</strong> — balanced quality for everyday workloads</li>
+  </ul>
+
+  <h2>How the platform works</h2>
+  <p>Your application sends a <strong>request</strong> (messages, model, options) to the LARK API using an <strong>API key</strong>. The model consumes <strong>tokens</strong> (pieces of text) as input and produces tokens as output within a <strong>context window</strong>. You receive a structured <strong>response</strong>, optionally streamed token-by-token.</p>
+  <div class="note"><strong>Mental model:</strong> Client → API key → Model → Tokens in / tokens out → Response (or stream).</div>
+
+  <h3>Models</h3>
+  <p>A model is a trained system that maps prompts to completions. Model choice affects quality, speed, and price.</p>
+  <h3>API</h3>
+  <p>HTTPS endpoints and official SDKs. Most apps use the Chat Completions-style interface.</p>
+  <h3>Tokens</h3>
+  <p>Text is split into tokens for billing and context accounting. Roughly: 1 token ≈ 4 characters of English, but this varies by language and content.</p>
+  <h3>Requests &amp; responses</h3>
+  <p>A request includes the model id, a list of messages, and optional parameters (temperature, max tokens, tools). The response includes the assistant message, usage counts, and metadata.</p>
+  <h3>Context windows</h3>
+  <p>The maximum tokens the model can consider at once (input + output). Exceeding the window causes errors or truncation—design prompts and retrieval so critical information fits.</p>
+</section>
+
+<!-- QUICKSTART -->
+<section class="section" id="quickstart">
+  <h1>Quickstart</h1>
+  <p class="lead">Go from zero to a successful API response in a few minutes.</p>
+
+  <div class="steps">
+    <div class="step">
+      <h3>Create an API key</h3>
+      <p>Open the <a href="./apikey.html">API Keys</a> console, create a key, and store it as an environment variable. Never commit keys to git or ship them in frontend code.</p>
+<pre><span class="c"># macOS / Linux</span>
+<span class="k">export</span> <span class="n">LARK_API_KEY</span>=<span class="s">"lark_sk_..."</span></pre>
+    </div>
+    <div class="step">
+      <h3>Install an SDK</h3>
+<pre><span class="c"># Python</span>
+pip install lark
+
+<span class="c"># Node.js</span>
+npm install @lark/sdk</pre>
+    </div>
+    <div class="step">
+      <h3>Make your first request</h3>
+      <p><strong>Python</strong></p>
+<pre><span class="k">from</span> lark <span class="k">import</span> Lark
+
+client = <span class="f">Lark</span>()  <span class="c"># reads LARK_API_KEY</span>
+
+response = client.chat.<span class="f">create</span>(
+    model=<span class="s">"nova-pro"</span>,
+    messages=[
+        {<span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: <span class="s">"Explain tokens in one sentence."</span>}
+    ],
+)
+
+<span class="k">print</span>(response.choices[0].message.content)</pre>
+      <p><strong>JavaScript</strong></p>
+<pre><span class="k">import</span> Lark <span class="k">from</span> <span class="s">"@lark/sdk"</span>;
+
+<span class="k">const</span> client = <span class="k">new</span> <span class="f">Lark</span>();
+
+<span class="k">const</span> response = <span class="k">await</span> client.chat.<span class="f">create</span>({
+  model: <span class="s">"nova-pro"</span>,
+  messages: [{ role: <span class="s">"user"</span>, content: <span class="s">"Explain tokens in one sentence."</span> }],
+});
+
+console.<span class="f">log</span>(response.choices[0].message.content);</pre>
+    </div>
+  </div>
+
+  <h2>Expected response shape</h2>
+<pre>{
+  <span class="s">"id"</span>: <span class="s">"chatcmpl_..."</span>,
+  <span class="s">"model"</span>: <span class="s">"nova-pro"</span>,
+  <span class="s">"choices"</span>: [
+    {
+      <span class="s">"index"</span>: 0,
+      <span class="s">"message"</span>: {
+        <span class="s">"role"</span>: <span class="s">"assistant"</span>,
+        <span class="s">"content"</span>: <span class="s">"Tokens are the small text units models read and generate."</span>
+      },
+      <span class="s">"finish_reason"</span>: <span class="s">"stop"</span>
+    }
+  ],
+  <span class="s">"usage"</span>: {
+    <span class="s">"prompt_tokens"</span>: 12,
+    <span class="s">"completion_tokens"</span>: 18,
+    <span class="s">"total_tokens"</span>: 30
+  }
+}</pre>
+
+  <h2>Common mistakes</h2>
+  <ul>
+    <li>Missing or invalid <code class="inline">LARK_API_KEY</code></li>
+    <li>Calling the API from browser JavaScript with a secret key</li>
+    <li>Wrong model id (typos like <code class="inline">nova_pro</code> instead of <code class="inline">nova-pro</code>)</li>
+    <li>Empty <code class="inline">messages</code> array</li>
+  </ul>
+</section>
+
+<!-- CONCEPTS -->
+<section class="section" id="concepts">
+  <h1>Core Concepts</h1>
+  <p class="lead">Shared vocabulary for the rest of the docs.</p>
+
+  <h2>What is a model?</h2>
+  <p>A model is a function from input tokens to output tokens, trained to follow instructions and continue text usefully. LARK hosts models; you choose which one handles each request.</p>
+
+  <h2>What is context?</h2>
+  <p>Context is everything the model can “see” for a request: system instructions, prior messages, retrieved documents, and tool results. Better context usually matters more than clever wording alone.</p>
+
+  <h2>What are tokens?</h2>
+  <p>Tokens are subword units. Billing and rate limits are token-based. Long documents and code consume many tokens—use retrieval or summarization when inputs are large.</p>
+
+  <h2>What is reasoning?</h2>
+  <p>Reasoning models spend more internal computation on multi-step problems (planning, math, analysis). Apex is optimized for this; Hyper prioritizes speed for simpler or high-volume tasks.</p>
+
+  <h2>What is streaming?</h2>
+  <p>Streaming delivers partial tokens as they are generated so UIs can show progress instead of waiting for the full completion.</p>
+
+  <h2>What is tool calling?</h2>
+  <p>You describe tools (functions) with JSON schemas. The model may return a structured call; your code runs the tool and can send results back for a final answer.</p>
+
+  <h2>What are structured outputs?</h2>
+  <p>You constrain the model to return JSON that matches a schema—useful for forms, pipelines, and type-safe integrations.</p>
+</section>
+
+<!-- MODELS -->
+<section class="section" id="models">
+  <h1>Models</h1>
+  <p class="lead">Pick the smallest model that meets quality needs; upgrade when evaluation says you must.</p>
+
+  <h2>Nova Apex</h2>
+  <p><strong>Frontier reasoning model</strong> for complex analysis, long-context understanding, and high-stakes workflows.</p>
+  <ul>
+    <li><strong>Best for:</strong> research, planning, multi-step analysis</li>
+    <li><strong>Strengths:</strong> depth, instruction following, hard problems</li>
+    <li><strong>Limitations:</strong> higher latency and cost than Hyper/Pro</li>
+    <li><strong>Latency profile:</strong> standard (quality over speed)</li>
+  </ul>
+
+  <h2>Nova Hyper</h2>
+  <p><strong>Fast production model</strong> optimized for throughput and efficiency.</p>
+  <ul>
+    <li><strong>Best for:</strong> agents, automation, high QPS features</li>
+    <li><strong>Strengths:</strong> low latency, cost efficiency at scale</li>
+    <li><strong>Limitations:</strong> less depth than Apex on the hardest tasks</li>
+    <li><strong>Latency profile:</strong> fast</li>
+  </ul>
+
+  <h2>Nova Pro</h2>
+  <p><strong>Balanced model</strong> for general product use.</p>
+  <ul>
+    <li><strong>Best for:</strong> chat, coding assistance, content, everyday workflows</li>
+    <li><strong>Strengths:</strong> strong quality/speed balance</li>
+    <li><strong>Limitations:</strong> not the peak of either frontier depth or raw speed</li>
+  </ul>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Model</th><th>Reasoning</th><th>Speed</th><th>Typical use</th></tr></thead>
+      <tbody>
+        <tr><td>nova-apex</td><td>Highest</td><td>Standard</td><td>Complex analysis</td></tr>
+        <tr><td>nova-hyper</td><td>Strong</td><td>Fastest</td><td>Production scale</td></tr>
+        <tr><td>nova-pro</td><td>Strong</td><td>Fast</td><td>General workloads</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Exact context limits and pricing are published in the platform console and may change; always read the current model card in the dashboard.</p>
+</section>
+
+<!-- AUTH -->
+<section class="section" id="auth">
+  <h1>Authentication</h1>
+  <p class="lead">Every request must present a valid API key.</p>
+
+  <h2>API keys</h2>
+  <p>Keys are secrets issued per organization. Create and revoke them in the <a href="./apikey.html">API Keys</a> console. Prefer separate keys for development and production.</p>
+
+  <h2>Environment variables</h2>
+<pre><span class="c"># .env (never commit)</span>
+<span class="n">LARK_API_KEY</span>=lark_sk_...
+
+<span class="c"># Python</span>
+<span class="k">import</span> os
+<span class="k">from</span> lark <span class="k">import</span> Lark
+client = <span class="f">Lark</span>(api_key=os.environ[<span class="s">"LARK_API_KEY"</span>])
+
+<span class="c"># Node.js</span>
+<span class="k">import</span> Lark <span class="k">from</span> <span class="s">"@lark/sdk"</span>;
+<span class="k">const</span> client = <span class="k">new</span> <span class="f">Lark</span>({ apiKey: process.env.<span class="n">LARK_API_KEY</span> });</pre>
+
+  <div class="warn"><strong>Never</strong> put secret keys in mobile apps, browser bundles, public repos, or client-side analytics. Use a backend or edge function as a proxy.</div>
+
+  <h2>Security practices</h2>
+  <ul>
+    <li>Rotate keys on a schedule and after staff changes</li>
+    <li>Scope production keys tightly; use read-only where possible</li>
+    <li>Monitor usage for spikes that suggest leakage</li>
+    <li>Revoke immediately if a key is exposed</li>
+  </ul>
+</section>
+
+<!-- CHAT -->
+<section class="section" id="chat">
+  <h1>Chat Completions API</h1>
+  <p class="lead">The primary interface for conversational and instruction-following workloads.</p>
+
+  <h2>Endpoint</h2>
+  <p><code class="inline">POST /v1/chat/completions</code></p>
+
+  <h2>Request format</h2>
+<pre>{
+  <span class="s">"model"</span>: <span class="s">"nova-pro"</span>,
+  <span class="s">"messages"</span>: [
+    { <span class="s">"role"</span>: <span class="s">"system"</span>, <span class="s">"content"</span>: <span class="s">"You are a precise technical assistant."</span> },
+    { <span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: <span class="s">"Summarize rate limits in 3 bullets."</span> }
+  ],
+  <span class="s">"temperature"</span>: 0.2,
+  <span class="s">"max_tokens"</span>: 500
+}</pre>
+
+  <h2>Parameters</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code class="inline">model</code></td><td>Model id, e.g. <code class="inline">nova-apex</code></td></tr>
+        <tr><td><code class="inline">messages</code></td><td>Ordered list of role/content objects</td></tr>
+        <tr><td><code class="inline">temperature</code></td><td>Randomness (lower = more deterministic)</td></tr>
+        <tr><td><code class="inline">max_tokens</code></td><td>Cap on generated tokens</td></tr>
+        <tr><td><code class="inline">stream</code></td><td>If true, SSE token stream</td></tr>
+        <tr><td><code class="inline">tools</code></td><td>Optional tool definitions for function calling</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>System vs user messages</h3>
+  <p>Use <strong>system</strong> for durable instructions (persona, format, safety). Use <strong>user</strong> for the current task. Use <strong>assistant</strong> for prior model turns in multi-turn chat.</p>
+
+  <h2>Response schema</h2>
+  <p>Successful responses include <code class="inline">choices[].message</code>, <code class="inline">finish_reason</code>, and <code class="inline">usage</code>. Handle non-200 responses using the error object described in Errors.</p>
+
+  <h2>Best practices</h2>
+  <ul>
+    <li>Keep system prompts stable; put volatile data in user messages</li>
+    <li>Set low temperature for extraction and classification</li>
+    <li>Always set sensible <code class="inline">max_tokens</code> for cost control</li>
+    <li>Log request ids for support and debugging</li>
+  </ul>
+</section>
+
+<!-- STREAMING -->
+<section class="section" id="streaming">
+  <h1>Streaming</h1>
+  <p class="lead">Stream tokens for responsive UIs and early cancellation.</p>
+  <p>With <code class="inline">stream: true</code>, the API sends server-sent events. Each event carries a partial delta of the assistant message. Concatenate deltas until <code class="inline">finish_reason</code> appears.</p>
+<pre><span class="c"># Python (sketch)</span>
+stream = client.chat.<span class="f">create</span>(model=<span class="s">"nova-hyper"</span>, messages=messages, stream=<span class="k">True</span>)
+<span class="k">for</span> event <span class="k">in</span> stream:
+    delta = event.choices[0].delta.content <span class="k">or</span> <span class="s">""</span>
+    <span class="k">print</span>(delta, end=<span class="s">""</span>)</pre>
+<pre><span class="c">// JavaScript (sketch)</span>
+<span class="k">const</span> stream = <span class="k">await</span> client.chat.<span class="f">create</span>({ model: <span class="s">"nova-hyper"</span>, messages, stream: <span class="k">true</span> });
+<span class="k">for</span> <span class="k">await</span> (<span class="k">const</span> event <span class="k">of</span> stream) {
+  process.stdout.<span class="f">write</span>(event.choices[0]?.delta?.content ?? <span class="s">""</span>);
+}</pre>
+  <p>Streaming does not reduce total tokens; it changes delivery. Implement client-side abort when users cancel generation.</p>
+</section>
+
+<!-- VISION -->
+<section class="section" id="vision">
+  <h1>Vision</h1>
+  <p class="lead">Send images alongside text for multimodal understanding.</p>
+  <p>Supported inputs typically include common formats such as PNG, JPEG, and WebP (see console for current limits on size and resolution). Use cases: document screenshots, UI debugging, chart reading, product photos.</p>
+  <p>Pass image content as part of a user message (URL or base64, depending on API version). Pair images with clear instructions: what to extract, what to ignore, and the output format you need.</p>
+  <div class="note">Vision increases token usage. Prefer cropped regions over full high-resolution pages when possible.</div>
+</section>
+
+<!-- VOICE -->
+<section class="section" id="voice">
+  <h1>Voice</h1>
+  <p class="lead">Speech-oriented workflows on top of Nova.</p>
+  <ul>
+    <li><strong>Speech-to-text</strong> — transcribe audio for chat or search</li>
+    <li><strong>Text-to-speech</strong> — speak assistant replies</li>
+    <li><strong>Realtime</strong> — low-latency conversational loops</li>
+  </ul>
+  <p>Design for imperfect transcripts: confirm critical fields, and keep tools idempotent. For production, stream partial transcripts and handle barge-in (user interruption).</p>
+</section>
+
+<!-- TOOLS -->
+<section class="section" id="tools">
+  <h1>Function Calling</h1>
+  <p class="lead">Let the model request tools; your code executes them.</p>
+  <h2>Why tools exist</h2>
+  <p>Models should not invent live data. Tools give grounded access to weather, databases, search, ticketing systems, and internal APIs.</p>
+  <h2>Flow</h2>
+  <ol>
+    <li>You send tool schemas with the chat request</li>
+    <li>Model may return a tool call (name + arguments)</li>
+    <li>Your server runs the tool</li>
+    <li>You send tool results back as messages</li>
+    <li>Model produces a final natural-language (or structured) answer</li>
+  </ol>
+  <h2>Schema design</h2>
+  <p>Keep tools small and explicit. Name arguments clearly. Validate arguments before execution. Example domains: weather lookup, SQL read query, document search.</p>
+  <div class="warn">Never expose destructive tools without authorization checks and audit logs.</div>
+</section>
+
+<!-- STRUCTURED -->
+<section class="section" id="structured">
+  <h1>Structured Outputs</h1>
+  <p class="lead">Get JSON that matches a schema for reliable automation.</p>
+  <p>Structured outputs reduce brittle regex parsing. Define the schema your app expects (fields, types, enums). Validate on the server even when the API enforces schema. Use for classifications, extraction, and multi-field forms.</p>
+</section>
+
+<!-- AGENTS -->
+<section class="section" id="agents">
+  <h1>Agents</h1>
+  <p class="lead">Agents plan, call tools, and iterate toward a goal.</p>
+  <p>An agent loop typically: plan → act (tool) → observe → update plan → stop when done or budget exhausted. Add memory carefully (summaries, not unbounded transcripts). Production agents need timeouts, max steps, human approval for sensitive actions, and full traces for debugging.</p>
+</section>
+
+<!-- PROMPTS -->
+<section class="section" id="prompts">
+  <h1>Prompt Engineering</h1>
+  <p class="lead">Clear instructions outperform clever tricks.</p>
+  <ul>
+    <li><strong>System prompts</strong> — role, tone, hard constraints, output format</li>
+    <li><strong>Instructions</strong> — task steps; prefer numbered procedures</li>
+    <li><strong>Context</strong> — only relevant retrieved facts; cite sources when needed</li>
+    <li><strong>Reasoning</strong> — ask for stepwise work on hard problems; verify final answers</li>
+  </ul>
+  <h2>Common mistakes</h2>
+  <ul>
+    <li>Contradictory instructions</li>
+    <li>Huge irrelevant context</li>
+    <li>No success criteria (“write something good”)</li>
+    <li>Asking for confidential data the model should not invent</li>
+  </ul>
+</section>
+
+<!-- LIMITS -->
+<section class="section" id="limits">
+  <h1>Rate Limits</h1>
+  <p class="lead">Protect the platform and your budget.</p>
+  <p>Limits may apply to requests per minute (RPM) and tokens per minute (TPM). When limited, back off with jittered exponential retry. Cache identical prompts where safe. Batch offline jobs. Request limit increases with clear production traffic patterns.</p>
+</section>
+
+<!-- ERRORS -->
+<section class="section" id="errors">
+  <h1>Errors</h1>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Class</th><th>Typical cause</th><th>What to do</th></tr></thead>
+      <tbody>
+        <tr><td>401 / auth</td><td>Missing or invalid key</td><td>Check env var; rotate if leaked</td></tr>
+        <tr><td>400 / invalid</td><td>Bad JSON, empty messages</td><td>Validate payload schema</td></tr>
+        <tr><td>429 / rate limit</td><td>Too many requests</td><td>Backoff and reduce concurrency</td></tr>
+        <tr><td>5xx / server</td><td>Transient platform issue</td><td>Retry with backoff; check status</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Always log status, error code, and request id. See <a href="./status.html">Status</a> during incidents.</p>
+</section>
+
+<!-- SECURITY -->
+<section class="section" id="security">
+  <h1>Security</h1>
+  <ul>
+    <li>Server-side keys only</li>
+    <li>Least-privilege keys and network controls</li>
+    <li>Do not send unnecessary PII in prompts</li>
+    <li>Review retention settings for your plan</li>
+    <li>Treat model output as untrusted in security-sensitive flows</li>
+  </ul>
+</section>
+
+<!-- SDKS -->
+<section class="section" id="sdks">
+  <h1>SDKs</h1>
+  <p><strong>Python</strong> and <strong>JavaScript/TypeScript</strong> are the primary official SDKs. Install from the public package registries, configure via <code class="inline">LARK_API_KEY</code>, and prefer the chat interface for most apps. Additional language SDKs may appear on the platform roadmap; HTTP remains the stable contract underneath.</p>
+</section>
+
+<!-- COOKBOOK -->
+<section class="section" id="cookbook">
+  <h1>Cookbook</h1>
+  <p class="lead">Patterns you can adapt.</p>
+  <ul>
+    <li><strong>Chatbot</strong> — system prompt + short memory window + safety refusals</li>
+    <li><strong>Research assistant</strong> — retrieve → cite → summarize with Apex</li>
+    <li><strong>Coding assistant</strong> — repo context packs + Hyper for iteration speed</li>
+    <li><strong>Document analysis</strong> — chunk, embed/search, then answer with sources</li>
+    <li><strong>Customer support</strong> — policy retrieval + escalation tool</li>
+    <li><strong>Knowledge base</strong> — strict grounded mode when unsure</li>
+    <li><strong>Enterprise automation</strong> — structured outputs + approval gates</li>
+  </ul>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <h1>FAQ</h1>
+  <h3>Can I use Nova in the browser?</h3>
+  <p>Call LARK from your backend. Browsers should never hold secret API keys.</p>
+  <h3>Which model should I start with?</h3>
+  <p>Start with <code class="inline">nova-pro</code>. Move hard tasks to Apex; move high-QPS paths to Hyper after measuring.</p>
+  <h3>How is usage billed?</h3>
+  <p>Primarily by tokens processed (input and output). Check the console for current rates.</p>
+  <h3>Is streaming required?</h3>
+  <p>No. Use streaming for UX; non-streaming is fine for batch jobs.</p>
+</section>
+
+<!-- CHANGELOG -->
+<section class="section" id="changelog">
+  <h1>Changelog</h1>
+  <ul>
+    <li><strong>Models</strong> — Nova Apex available for extended reasoning workloads</li>
+    <li><strong>API</strong> — streaming and tool-calling improvements</li>
+    <li><strong>Platform</strong> — reliability and observability updates</li>
+  </ul>
+  <p>See <a href="./changelog.html">platform changelog</a> for dated entries and deprecations.</p>
+</section>
+
+</main>
+</div>
+
+<script>
+(function(){
+  var sections=[].slice.call(document.querySelectorAll('.section'));
+  var links=[].slice.call(document.querySelectorAll('.sidebar a[data-section]'));
+  var sidebar=document.getElementById('sidebar');
+  var backdrop=document.getElementById('backdrop');
+  var toc=document.getElementById('toc');
+
+  function show(id){
+    sections.forEach(function(s){s.classList.toggle('active', s.id===id);});
+    links.forEach(function(a){a.classList.toggle('active', a.getAttribute('data-section')===id);});
+    var active=document.getElementById(id);
+    if(active){
+      var hs=[].slice.call(active.querySelectorAll('h2'));
+      toc.innerHTML='<strong>On this page</strong>'+hs.map(function(h,i){
+        if(!h.id) h.id=id+'-h'+i;
+        return '<a href="#'+h.id+'">'+h.textContent+'</a>';
+      }).join('');
+    }
+    sidebar.classList.remove('open');
+    backdrop.classList.remove('open');
+    window.scrollTo(0,0);
+  }
+
+  links.forEach(function(a){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      var id=a.getAttribute('data-section');
+      history.replaceState(null,'','#'+id);
+      show(id);
+    });
+  });
+  document.querySelectorAll('.quick-card').forEach(function(a){
+    a.addEventListener('click',function(e){
+      var href=a.getAttribute('href')||'';
+      if(href.charAt(0)==='#'){
+        e.preventDefault();
+        var id=href.slice(1);
+        history.replaceState(null,'','#'+id);
+        show(id);
+      }
+    });
+  });
+
+  var initial=(location.hash||'#intro').slice(1);
+  if(!document.getElementById(initial)) initial='intro';
+  show(initial);
+
+  document.getElementById('menu-toggle').addEventListener('click',function(){
+    sidebar.classList.toggle('open');
+    backdrop.classList.toggle('open');
+  });
+  backdrop.addEventListener('click',function(){
+    sidebar.classList.remove('open');
+    backdrop.classList.remove('open');
+  });
+
+  // Search
+  var index=[];
+  sections.forEach(function(s){
+    var title=(s.querySelector('h1')||{}).textContent||s.id;
+    var text=s.textContent.replace(/\s+/g,' ').slice(0,2000);
+    index.push({id:s.id,title:title,text:text});
+  });
+  var input=document.getElementById('search');
+  var results=document.getElementById('search-results');
+  function runSearch(){
+    var q=input.value.trim().toLowerCase();
+    if(!q){results.classList.remove('open');results.innerHTML='';return;}
+    var hits=index.filter(function(item){
+      return item.title.toLowerCase().indexOf(q)>=0||item.text.toLowerCase().indexOf(q)>=0;
+    }).slice(0,8);
+    results.innerHTML=hits.map(function(h){
+      return '<button type="button" data-id="'+h.id+'"><strong>'+h.title+'</strong><span>'+h.id+'</span></button>';
+    }).join('')||'<button type="button">No results</button>';
+    results.classList.add('open');
+  }
+  input.addEventListener('input',runSearch);
+  input.addEventListener('focus',runSearch);
+  results.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-id]');
+    if(!b) return;
+    show(b.getAttribute('data-id'));
+    history.replaceState(null,'','#'+b.getAttribute('data-id'));
+    results.classList.remove('open');
+    input.value='';
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='/'&&document.activeElement!==input){
+      e.preventDefault();input.focus();
+    }
+    if(e.key==='Escape'){results.classList.remove('open');input.blur();}
+  });
+})();
+</script>
+</body>
+</html>
